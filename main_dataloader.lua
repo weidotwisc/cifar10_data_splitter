@@ -30,20 +30,26 @@ torch.manualSeed(opt.manualSeed)
 -- Data loading
 local trainLoader, valLoader, testLoader = DataLoader.create(opt)
 
-
+cnt=0
 for n, sample in trainLoader:run() do
-   print(n)
-   print(sample)
+   --print(n)
+   --print(sample)
+   cnt = cnt +1
 end
+print("train loader has batches: " .. cnt)
 
-
+cnt=0
 for n, sample in valLoader:run() do
-   print(n)
-   print(sample)
+   --print(n)
+   --print(sample)
+   cnt = cnt + 1
 end
+print("val loader has batches: " .. cnt)
 
+cnt = 0
 for n, sample in testLoader:run() do
-   print(n)
-   print(sample)
+   --print(n)
+   --print(sample)
+   cnt = cnt +1
 end
-
+print("test loader has batches: " .. cnt)

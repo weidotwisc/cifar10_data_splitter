@@ -33,7 +33,14 @@ local checkpoint, optimState = checkpoints.latest(opt)
 local model, criterion = models.setup(opt, checkpoint)
 
 -- Data loading
-local trainLoader, valLoader = DataLoader.create(opt)
+local trainLoader=nil
+local  valLoader=nil
+local testLoader= nil
+if(opt.dataset == 'cifar10') then
+   trainLoader, valLoader, testLoader = DataLoader.create(opt)
+else
+   trainLoader, valLoader = DataLoader.create(opt)
+end
 
 -- The trainer handles the training loop and evaluation on validation set
 local trainer = Trainer(model, criterion, opt, optimState)

@@ -19,12 +19,17 @@ local DataLoader = torch.class('resnet.DataLoader', M)
 function DataLoader.create(opt)
    -- The train and val loader
    local loaders = {}
-
-   for i, split in ipairs{'train', 'val'} do
-      local dataset = datasets.create(opt, split)
-      loaders[i] = M.DataLoader(dataset, opt, split)
+   if(opt.dataset == 'cifar10') then -- added by Wei 2018-05-05 so we support train/val split for cifar10
+      for i, split in ipairs{'train', 'val', 'test'} do
+	 local dataset = datasets.create(opt, split)
+	 loaders[i] = M.DataLoader(dataset, opt, split)
+      end
+   else
+      for i, split in ipairs{'train', 'val'} do
+	 local dataset = datasets.create(opt, split)
+	 loaders[i] = M.DataLoader(dataset, opt, split)
+      end
    end
-
    return table.unpack(loaders)
 end
 

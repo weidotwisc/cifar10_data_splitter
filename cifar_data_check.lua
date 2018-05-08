@@ -3,6 +3,7 @@ valP=torch.load('gen/cifar10-valPerm.t7')
 
 newD = torch.load('gen/cifar10.t7')
 origD = torch.load('gen/backup/cifar10.t7')
+print(string.format("trnP size %d, valP size %d", trnP:size()[1], valP:size()[1]))
 assert(trnP:size()[1]+valP:size()[1] == 50000)
 print("TEST 0 passed " .. " didnt miss data")
 

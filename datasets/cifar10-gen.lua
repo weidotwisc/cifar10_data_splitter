@@ -41,15 +41,22 @@ local function convertToTensorTV(files, ratio)
 
    -- the below is Wei's logic to seperate train and val datasets 2018-05-05
    cnt = data:size()[1]
-   perm = torch.randperm(cnt):long() -- when use Torch Tensor index, it requires a long a Long tensor
-   trnPerm = perm:narrow(1,1,cnt*ratio)
-   valPerm = perm:narrow(1,cnt*ratio+1, cnt*(1-ratio))
-   torch.save('gen/cifar10-trnPerm.t7', trnPerm)
-   torch.save('gen/cifar10-valPerm.t7', valPerm)
-   trnData = data:index(1,trnPerm)
-   trnLabels = labels:index(1,trnPerm)
-   valData = data:index(1, valPerm)
-   valLabels = labels:index(1,valPerm)
+   if(ratio < 1 and ratio > 0) then
+      perm = torch.randperm(cnt):long() -- when use Torch Tensor index, it requires a long a Long tensor
+      trnPerm = perm:narrow(1,1,cnt*ratio)
+      valPerm = perm:narrow(1,cnt*ratio+1, cnt*(1-ratio))
+      torch.save('gen/cifar10-trnPerm.t7', trnPerm)
+      torch.save('gen/cifar10-valPerm.t7', valPerm)
+      trnData = data:index(1,trnPerm)
+      trnLabels = labels:index(1,trnPerm)
+      valData = data:index(1, valPerm)
+      valLabels = labels:index(1,valPerm)
+   else -- added on 2018-05-12 create valData as the copy of trnData
+      trnData = data:clone()
+      trnLabels = labels:clone()
+      valData = data:clone()
+      valLabels = labels:clone()
+   end
    return
       {
 	 data = trnData,

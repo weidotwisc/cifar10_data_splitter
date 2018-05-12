@@ -41,7 +41,6 @@ local function convertToTensorTV(files, ratio)
 
    -- the below is Wei's logic to seperate train and val datasets 2018-05-05
    cnt = data:size()[1]
-<<<<<<< HEAD
    if(ratio < 1 and ratio > 0) then
       perm = torch.randperm(cnt):long() -- when use Torch Tensor index, it requires a long a Long tensor
       trnPerm = perm:narrow(1,1,cnt*ratio)
@@ -58,17 +57,6 @@ local function convertToTensorTV(files, ratio)
       valData = data:clone()
       valLabels = labels:clone()
    end
-=======
-   perm = torch.randperm(cnt):long() -- when use Torch Tensor index, it requires a long a Long tensor
-   trnPerm = perm:narrow(1,1,cnt*ratio)
-   valPerm = perm:narrow(1,cnt*ratio+1, cnt*(1.0-ratio)) -- apparently, in Lua 1.0 is different from 1, say if i have cnt=50000, ratio=0.8, if i use 1 then this experission is 9999 instead of 10000, weird!
-   torch.save('gen/cifar10-trnPerm.t7', trnPerm)
-   torch.save('gen/cifar10-valPerm.t7', valPerm)
-   trnData = data:index(1,trnPerm)
-   trnLabels = labels:index(1,trnPerm)
-   valData = data:index(1, valPerm)
-   valLabels = labels:index(1,valPerm)
->>>>>>> 5ba3aff239291f4392b71241be2b4e15114b1e3a
    return
       {
 	 data = trnData,
